@@ -1,0 +1,22 @@
+<h1>Public place</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.crier_index_path(@socket, :index)}>
+    <.live_component
+      module={OyezWeb.CrierLive.FormComponent}
+      id={@crier.id || :new}
+      title={@page_title}
+      action={@live_action}
+      crier={@crier}
+      return_to={Routes.crier_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<div id="criers">
+  <%= for crier <- @criers do %>
+    <%= live_component @socket, OyezWeb.CrierLive.PostComponent, id: crier.id, crier: crier  %>
+  <% end %>
+</div>
+
+<span><%= live_patch "New Crier", to: Routes.crier_index_path(@socket, :new) %></span>

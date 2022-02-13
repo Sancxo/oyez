@@ -18,6 +18,12 @@ defmodule OyezWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    live "/criers", CrierLive.Index, :index
+    live "/criers/new", CrierLive.Index, :new
+    live "/criers/:id/edit", CrierLive.Index, :edit
+
+    live "/criers/:id", CrierLive.Show, :show
+    live "/criers/:id/show/edit", CrierLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

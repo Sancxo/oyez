@@ -1,0 +1,41 @@
+<h1>Show Crier</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.crier_show_path(@socket, :show, @crier)}>
+    <.live_component
+      module={OyezWeb.CrierLive.FormComponent}
+      id={@crier.id}
+      title={@page_title}
+      action={@live_action}
+      crier={@crier}
+      return_to={Routes.crier_show_path(@socket, :show, @crier)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @crier.name %>
+  </li>
+
+  <li>
+    <strong>Message:</strong>
+    <%= @crier.message %>
+  </li>
+
+  <li>
+    <strong>Hurrays count:</strong>
+    <%= @crier.hurrays_count %>
+  </li>
+
+  <li>
+    <strong>Rumors count:</strong>
+    <%= @crier.rumors_count %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.crier_show_path(@socket, :edit, @crier), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.crier_index_path(@socket, :index) %></span>
