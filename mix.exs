@@ -49,7 +49,8 @@ defmodule Oyez.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:tailwind, "~> 0.1.5"}
+      {:tailwind, "~> 0.1.5"},
+      {:ex_fontawesome, "~> 0.6.0"}
     ]
   end
 
