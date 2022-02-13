@@ -52,7 +52,7 @@ config :tailwind,
   ]
 
 # Configures Ex_FontAwesome
-config :ex_hfontawesome, type: "regular"
+config :ex_fontawesome, type: "regular"
 
 # Configures Elixir's Logger
 config :logger, :console,
