@@ -1,10 +1,4 @@
-defmodule OyezWeb.CrierLive.PostComponent do
-  use OyezWeb, :live_component
-
-  def render(assigns) do
-    ~H"""
-
-    <div id="crier-{@crier.id}" class="crier grid grid-rows-2 border rounded border-neutral-300">
+<div id="crier-{@crier.id}" class="crier grid grid-rows-2 border rounded border-neutral-300 justify-center">
       <div class="row">
         <div class="column column-10">
           <div class="crier-avatar"></div>
@@ -17,15 +11,15 @@ defmodule OyezWeb.CrierLive.PostComponent do
         </div>
       </div>
 
-      <div class="row">
-        <div class="column">
+      <div class="flex justify-between">
+        <p>
           <i><FontAwesome.LiveView.icon name="heart" type="regular" class="h-4 w-4" /></i> <%= @crier.hurrays_count %>
-        </div>
-        <div class="column">
+        </p>
+        <p>
           <i><FontAwesome.LiveView.icon name="comments" type="regular" class="h-4 w-4" /></i> <%= @crier.rumors_count %>
-        </div>
-        <div class="column">
-          <%= live_patch to: Routes.crier_index_path(@socket, :edit, @crier.id) do %>
+        </p>
+        <div class="flex">
+          <%= live_patch to: Routes.crier_index_path(@socket, :edit, @crier.id), class: "mr-2" do %>
             <i><FontAwesome.LiveView.icon name="edit" type="regular" class="h-4 w-4" /></i>
           <% end %>
           <%= link to: "#", phx_click: "delete", phx_value_id: @crier.id, data: [confirm: "Do you really want to delete this crier ?"] do %>
@@ -34,7 +28,3 @@ defmodule OyezWeb.CrierLive.PostComponent do
         </div>
       </div>
     </div>
-
-    """
-  end
-end

@@ -13,9 +13,9 @@
   </.modal>
 <% end %>
 
-<div id="criers">
+<div id="criers" class="max-w-4xl">
   <%= for crier <- @criers do %>
-    <%= live_component @socket, OyezWeb.CrierLive.PostComponent, id: crier.id, crier: crier  %>
+    <%= live_component OyezWeb.CrierLive.CrierComponent, id: crier.id, crier: crier  %>
   <% end %>
 </div>
 
