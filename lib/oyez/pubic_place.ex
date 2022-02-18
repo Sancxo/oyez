@@ -18,7 +18,23 @@ defmodule Oyez.Pubic_place do
 
   """
   def list_criers do
-    Repo.all(Crier)
+    Repo.all(from c in Crier, order_by: [desc: c.id])
+  end
+
+  def inc_hurrays(%Crier{id: id}) do
+    {1, [crier]} =
+      from(c in Crier, where: c.id == ^id, select: c)
+      |> Repo.update_all(inc: [hurrays_count: 1])
+
+    broadcast({:ok, crier}, :crier_updated)
+  end
+
+  def spread_rumors(%Crier{id: id}) do
+    {1, [crier]} =
+      from(c in Crier, where: c.id == ^id, select: c)
+      |> Repo.update_all(inc: [rumors_count: 1])
+
+    broadcast({:ok, crier}, :crier_updated)
   end
 
   @doc """
@@ -53,6 +69,7 @@ defmodule Oyez.Pubic_place do
     %Crier{}
     |> Crier.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:crier_created)
   end
 
   @doc """
@@ -71,6 +88,7 @@ defmodule Oyez.Pubic_place do
     crier
     |> Crier.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:crier_updated)
   end
 
   @doc """
@@ -100,5 +118,16 @@ defmodule Oyez.Pubic_place do
   """
   def change_crier(%Crier{} = crier, attrs \\ %{}) do
     Crier.changeset(crier, attrs)
+  end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Oyez.PubSub, "criers")
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
+
+  defp broadcast({:ok, crier}, event) do
+    Phoenix.PubSub.broadcast(Oyez.PubSub, "criers", {event, crier})
+    {:ok, crier}
   end
 end

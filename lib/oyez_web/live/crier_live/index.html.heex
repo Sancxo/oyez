@@ -1,22 +1,24 @@
-<h1>Public place</h1>
+<div class="container max-w-2xl mx-auto">
+  <h1 class="font-sans text-3xl font-bold pl-4">Public place</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.crier_index_path(@socket, :index)}>
-    <.live_component
-      module={OyezWeb.CrierLive.FormComponent}
-      id={@crier.id || :new}
-      title={@page_title}
-      action={@live_action}
-      crier={@crier}
-      return_to={Routes.crier_index_path(@socket, :index)}
-    />
-  </.modal>
-<% end %>
-
-<div id="criers" class="max-w-4xl">
-  <%= for crier <- @criers do %>
-    <%= live_component OyezWeb.CrierLive.CrierComponent, id: crier.id, crier: crier  %>
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal return_to={Routes.crier_index_path(@socket, :index)}>
+      <.live_component
+        module={OyezWeb.CrierLive.FormComponent}
+        id={@crier.id || :new}
+        title={@page_title}
+        action={@live_action}
+        crier={@crier}
+        return_to={Routes.crier_index_path(@socket, :index)}
+      />
+    </.modal>
   <% end %>
-</div>
 
-<span><%= live_patch "New Crier", to: Routes.crier_index_path(@socket, :new) %></span>
+  <div id="criers" class="mx-auto my-8" phx-update="prepend">
+    <%= for crier <- @criers do %>
+      <%= live_component OyezWeb.CrierLive.CrierComponent, id: crier.id, crier: crier  %>
+    <% end %>
+  </div>
+
+  <span class="pl-4 text-emerald-600"><%= live_patch "New Crier", to: Routes.crier_index_path(@socket, :new) %></span>
+</div>

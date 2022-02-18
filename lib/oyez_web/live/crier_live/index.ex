@@ -6,7 +6,9 @@ defmodule OyezWeb.CrierLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :criers, list_criers())}
+    if connected?(socket), do: Pubic_place.subscribe()
+
+    {:ok, assign(socket, :criers, list_criers()), temporary_assigns: [criers: []]}
   end
 
   @impl true
@@ -38,6 +40,15 @@ defmodule OyezWeb.CrierLive.Index do
     {:ok, _} = Pubic_place.delete_crier(crier)
 
     {:noreply, assign(socket, :criers, list_criers())}
+  end
+
+  @impl true
+  def handle_info({:crier_created, crier}, socket) do
+    {:noreply, update(socket, :criers, fn criers -> [crier | criers] end)}
+  end
+
+  def handle_info({:crier_updated, crier}, socket) do
+    {:noreply, update(socket, :criers, fn criers -> [crier | criers] end)}
   end
 
   defp list_criers do

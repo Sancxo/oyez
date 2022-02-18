@@ -1,26 +1,30 @@
-<div id="crier-{@crier.id}" class="crier grid grid-rows-2 border rounded border-neutral-300 justify-center">
-      <div class="row">
+<div id={"crier-#{@crier.id}"} class="crier grid grid-rows-2 border rounded border-neutral-300 py-4 px-8">
+      <div class="flex">
         <div class="column column-10">
-          <div class="crier-avatar"></div>
+          <div class="crier-avatar w-20 h-20 bg-slate-400"></div>
         </div>
 
-        <div class="column column-90 crier-message">
+        <div class="column column-90 crier-message ml-8">
           <b>@<%= @crier.name %></b>
           <br />
           <%= @crier.message %>
         </div>
       </div>
 
-      <div class="flex justify-between">
-        <p>
-          <i><FontAwesome.LiveView.icon name="heart" type="regular" class="h-4 w-4" /></i> <%= @crier.hurrays_count %>
+      <div class="crier-actions flex justify-between items-end mx-16">
+        <p class="h-8">
+          <a href="#" phx-click="hurray" phx-target={@myself}>
+            <i class="inline-block"><FontAwesome.LiveView.icon name="heart" type="regular" class="h-4 w-4" /></i> <%= @crier.hurrays_count %>
+          </a>
         </p>
-        <p>
-          <i><FontAwesome.LiveView.icon name="comments" type="regular" class="h-4 w-4" /></i> <%= @crier.rumors_count %>
+        <p class="h-8">
+          <a href="#" phx-click="rumor" phx-target={@myself}>
+            <i class="inline-block"><FontAwesome.LiveView.icon name="comments" type="regular" class="h-4 w-4" /></i> <%= @crier.rumors_count %>
+          </a>
         </p>
-        <div class="flex">
+        <div class="flex h-8">
           <%= live_patch to: Routes.crier_index_path(@socket, :edit, @crier.id), class: "mr-2" do %>
-            <i><FontAwesome.LiveView.icon name="edit" type="regular" class="h-4 w-4" /></i>
+            <i><FontAwesome.LiveView.icon name="edit" type="regular" class="h-4 w-4 text-sky-400" /></i>
           <% end %>
           <%= link to: "#", phx_click: "delete", phx_value_id: @crier.id, data: [confirm: "Do you really want to delete this crier ?"] do %>
             <i><FontAwesome.LiveView.icon name="trash" type="solid" class="h-4 w-4" /></i>
